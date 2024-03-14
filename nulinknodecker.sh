@@ -81,8 +81,9 @@ echo "复制您的密钥库 "
 evm=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
 wallet='0x'$evm
 export wallet1=$wallet
-sleep 1
+sleep 10
 
+read -p "按Enter键继续..."   # 添加这一行，等待用户按下Enter键
 # 节点配置部署
 
 docker run -it --rm \
@@ -100,6 +101,7 @@ nulink/nulink nulink ursula init \
 --max-gas-price 10000000000
 
 #加载节点
+read -p "按Enter键继续..."   # 添加这一行，等待用户按下Enter键
 
 docker run --restart on-failure -d \
 --name ursula \
