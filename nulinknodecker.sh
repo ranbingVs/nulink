@@ -69,25 +69,27 @@ function install_node() {
     mkdir nulink
     cp /root/geth-linux-amd64-1.10.23-d901d853/keystore/* /root/nulink
     chmod -R 777 /root/nulink
-
+    
     # Initiate Worker
     read -r -p "您的NULINK存储密码.请务必记住此密码以供将来访问 : " NULINK_KEYSTORE_PASSWORD
     sleep 0.5
     export NULINK_KEYSTORE_PASSWORD=$NULINK_KEYSTORE_PASSWORD
     sleep 0.5
     read -r -p "您的员工帐户密码.请务必记住此密码以供将来访问 : " NULINK_OPERATOR_ETH_PASSWORD
-    sleep 0.5
+    sleep 1
     export NULINK_OPERATOR_ETH_PASSWORD=$NULINK_OPERATOR_ETH_PASSWORD
-    sleep 0.5
+    sleep 1
     echo " 您的密钥库路径 "
     filename=$(basename ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
     export filename1=$filename
     sleep 1
     echo "复制您的密钥库 "
+    read -p "按Enter键继续..."   # 添加这一行，等待用户按下Enter键
     evm=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
     wallet='0x'$evm
     export wallet1=$wallet
     sleep 1
+
 
     # 节点配置部署
     docker run -it --rm \
