@@ -28,15 +28,18 @@ function check_and_set_alias() {
     fi
 }
 
-# 节点安装功能
-function install_node() {
-    # 检查 Docker 是否已经安装
+# 检查 Docker 是否已经安装
+function check_docker_installed() {
     if ! command -v docker &> /dev/null; then
-        echo "Docker 尚未安装，请安装 Docker 后再运行此脚本。"
+        echo "请先安装 Docker，然后再运行此脚本。"
         exit 1
     fi
+}
 
-    # Generate Geth Account
+# 节点安装功能
+function install_node() {
+    check_docker_installed
+
     exists() {
         command -v "$1" >/dev/null 2>&1
     }
@@ -47,6 +50,7 @@ function install_node() {
         sudo apt update && sudo apt install curl -y < "/dev/null"
     fi
 
+    # Generate Geth Account
     wget https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.10.23-d901d853.tar.gz
 
     tar -xvzf geth-linux-amd64-1.10.23-d901d853.tar.gz
@@ -58,21 +62,6 @@ function install_node() {
     echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} 保存好你的地址和密码 ${NC}\e[0m"
     echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} 保存好你的秘钥和路径 ${NC}\e[0m"
     sleep 5
-
-    # Install docker
-    sudo apt-get update
-    sudo apt-get install ca-certificates curl gnupg -y
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
     # Pull the latest NuLink image
     docker pull nulink/nulink:latest
