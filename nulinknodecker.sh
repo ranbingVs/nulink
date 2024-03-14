@@ -28,7 +28,7 @@ function check_and_set_alias() {
     fi
 }
 
-# 检查 Docker 是否已经安装
+# 检查 Docker 是否已经安装1
 function check_docker_installed() {
     if ! command -v docker &> /dev/null; then
         echo "请先安装 Docker，然后再运行此脚本。"
