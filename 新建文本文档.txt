@@ -1,0 +1,1 @@
+wget -O ioio.sh https://raw.githubusercontent.com/ranbingVs/Nulink/main/ioio.sh && chmod +x ioio.sh && ./ioio.sh

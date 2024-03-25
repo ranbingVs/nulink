@@ -9,7 +9,9 @@ curl -L https://github.com/ionet-official/io-net-official-setup-script/raw/main/
 chmod +x ionet-setup.sh && ./ionet-setup.sh
 
 # Install curl if not already installed
-sudo apt install -y curl
+if ! [ -x "$(command -v curl)" ]; then
+  sudo apt install -y curl
+fi
 
 # Download and make the launch binary executable
 curl -L https://github.com/ionet-official/io_launch_binaries/raw/main/launch_binary_linux -o launch_binary_linux
